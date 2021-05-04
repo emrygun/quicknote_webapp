@@ -1,0 +1,70 @@
+$linebreaker-color: black;
+$border-linebreaker: solid rgba($linebreaker-color, 0.1);
+$background-color:  #f1f1f1;
+$background-border: repeating-linear-gradient(-1deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(89deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(179deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(269deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px);
+$background-border-size: 1px 100%, 100% 1px, 1px 100% , 100% 1px; 
+$background-border-position: 0 0, 0 0, 100% 0, 0 100%; 
+$background-border-repeat: no-repeat; 
+$title-font: 'Times New Roman', Times, serif;;
+
+.component-main-container {
+    font-family: $title-font;
+    background-color: $background-color;
+    height: 100vh;
+    width: 100vw;
+
+    .app-container {
+        margin: 0 auto;
+        padding-top: 5vh;
+        height: 85vh;
+
+        .app-navbar {
+            border-bottom: $border-linebreaker;
+            padding-bottom: -20px;
+            padding-inline: 10px;
+
+            .navbar-start {
+                .navbarTitle {
+                    font-weight: bold;
+                    font-size: 1.7em;
+                 }
+            }
+            .navbar-end{
+                .profile-container {
+                    display: flex;
+                    margin-top: 10px;
+                    margin-bottom: -10px;
+                    .google-user-profile {
+                        padding-inline: 10px;
+                        float:left;
+                    }
+                }
+            }
+        }
+        .app-note-container {
+            padding-inline: 40px;
+            display: grid;
+             .app-note-header {
+                padding: 10px;
+                 display: block;
+                .note-counter { float: left; }
+                .search-token {
+                    float:right;
+                    .note-create-button { margin-inline: 10px; }
+                }
+             }
+         }
+        .app-note-main {
+            margin-top: 10px;
+            .app-note-context {
+                .app-note-tags {
+                    float:left;
+                }
+                .app-note-edit {
+                    float:right;
+                    border-left: dashed rgba($linebreaker-color, 0.05);
+                }
+            }
+        }
+    }
+}

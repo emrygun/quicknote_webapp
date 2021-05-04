@@ -1,0 +1,8 @@
+*.vim
+*.pyc
+*.swo
+*.swp
+./__pycache__/*
+
+./resources/noteapp/?env
+./db/noteAppDb/database.yaml

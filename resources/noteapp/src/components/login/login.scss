@@ -1,0 +1,74 @@
+$linebreaker-color: black;
+$border-linebreaker: solid rgba($linebreaker-color, 0.1);
+$background-color:  #f1f1f1;
+$background-border: repeating-linear-gradient(-1deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(89deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(179deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(269deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px);
+$background-border-size: 1px 100%, 100% 1px, 1px 100% , 100% 1px; 
+$background-border-position: 0 0, 0 0, 100% 0, 0 100%; 
+$background-border-repeat: no-repeat; 
+$title-font: 'Times New Roman', Times, serif;;
+
+
+.component-main-container {
+    background-color: $background-color;
+    height: 100vh;
+    width: 100vw;
+    .main-container {
+        margin: 0 auto;
+        padding-top: 15vh;
+        display: grid;
+        justify-content: center;
+        text-align: center;
+       .login-content {
+            display: block;
+            margin: 2px;
+            padding: 30px;;
+
+            background-image: $background-border; 
+            background-size: $background-border-size;
+            background-position: $background-border-position;
+            background-repeat: $background-border-repeat; 
+            .header {
+                h3 {
+                    font-family: $title-font;
+                }
+            }
+            .represent {
+                margin : 10px;
+                .subTitle {
+                    text-align: center;
+                    font-weight: bold;
+                    font-family: $title-font;
+                    font-size: 1.0em;
+                }
+            }
+        }
+        .info {
+            border-top: $border-linebreaker;
+            p {
+                text-align: left;
+                margin-top: -15px;
+                margin-inline: 20px;
+            }
+            .infoTitle {
+                font-weight: bold;
+                font-size: 1.5em;
+                text-align: left;
+                margin-top: 20px;
+                font-family: $title-font;
+            }
+            .footer-container {
+                display: flex;
+                align-items: left;
+                .footer-tag {
+                    margin-inline: 5px;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+

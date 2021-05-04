@@ -1,0 +1,81 @@
+$linebreaker-color: black;
+$background-fade: rgba($linebreaker-color, 0.4);
+$background-color:  #f1f1f1;
+$background-border: repeating-linear-gradient(-1deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(89deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(179deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px), repeating-linear-gradient(269deg, #c1c1c1, #c1c1c1 10px, transparent 10px, transparent 35px, #c1c1c1 35px);
+$background-border-size: 1px 100%, 100% 1px, 1px 100% , 100% 1px; 
+$background-border-position: 0 0, 0 0, 100% 0, 0 100%; 
+$background-border-repeat: no-repeat; 
+$title-font: 'Times New Roman', Times, serif;
+
+//Starts here
+.createNote-main-container {
+    .createNote-container {
+        font-family: $title-font;
+
+        .createNote-modal-header {
+            overflow: hidden;
+
+            .title { float: left; }
+            .delete { float: right; }
+        }
+
+        .createNote-modal-titleField {
+            margin-left: 10px;
+
+            .label { 
+                padding-left: 5px;
+                display: flex;
+                padding-bottom: 5px;
+            }
+            .title-input {
+                margin-top: -3px;
+                margin-left: 10px;
+                width: 15vw;
+                background-color: transparent;
+                border: none;
+            }
+        }
+        .createNote-modal-noteField {
+            margin-top: -10px;
+            margin-bottom: 10px;
+            margin-inline: 20px;
+        }
+        .createNote-modal-noteSubmit {
+            padding-inline: 35px;
+            overflow: hidden;
+            padding-bottom: 15px;
+            .checkbox {
+                display: flex;
+                float:left;
+                margin-top: 3px;
+                p {
+                    margin-top: 2px;
+                    margin-inline: 5px;
+                }
+            }
+            .createNote-button-submit { float:right; }
+        }
+    }
+}
+
+.user-note {
+    cursor: pointer;
+    margin: -5px;
+    .title-block {
+            width: 100%;
+        .button {
+            display: block;
+            width: 100%;
+        }
+    }
+    .edit-block {
+        .button {
+            padding: 8px;
+        }
+    }
+    .delete-block {
+        .button {
+            padding: 8px;
+        }
+    }
+}
