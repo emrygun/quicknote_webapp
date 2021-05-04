@@ -8,6 +8,7 @@ import "./noteapp.scss";
 
 export function Noteapp(props) {
     const [logedIn, setLogedIn] = useState(true);
+    const [currentNote, setCurrentNote] = useState(null);
     const [userNotes, setUserNotes] = useState([]);
     const [userNotesUpdated, setUserNotesUpdates] = useState(false);
 
@@ -18,15 +19,29 @@ export function Noteapp(props) {
     //Open CreateNoteModal
     const switchCreateNoteModal = () => {
         setShowCreateNoteModal((prev) => !prev);
-        setShowDisplayNoteModal(false)
+        setShowDisplayNoteModal(false);
+        setCurrentNote(null);
         //reload note list
-        setUserNotesUpdates(prev => !prev)
+        setUserNotesUpdates(prev => !prev);
     };
 
     //Open DisplayNoteModal
-    const switchDisplayNoteModal = () => {
-        setShowDisplayNoteModal((prev) => !prev);
-        setShowCreateNoteModal(false);
+    const switchDisplayNoteModal = (tempNote) => {
+        if (tempNote == null){
+            setCurrentNote(null);
+            setShowDisplayNoteModal(false);
+        }
+        else {
+            if (currentNote != null){
+                setCurrentNote(tempNote);
+            }
+            else {
+                setCurrentNote(tempNote)
+                setShowDisplayNoteModal((prev) => !prev);
+                setShowCreateNoteModal(false);
+            }
+        }
+
     };
 
     const deleteUserNote = (Note) => {
@@ -138,6 +153,8 @@ export function Noteapp(props) {
                             {userNotes.map(elem => <UserNote 
                                 Note={elem}
                                 deleteUserNote={deleteUserNote}
+                                switchDisplayNoteModal={switchDisplayNoteModal}
+                                showDisplayNoteModal={showDisplayNoteModal}
                             />)} 
                         </ul>
                       </div>
@@ -150,6 +167,7 @@ export function Noteapp(props) {
                         <DisplayNote
                           showDisplayNoteModal={showDisplayNoteModal}
                           switchDisplayNoteModal={switchDisplayNoteModal}
+                          Note={currentNote}
                         />
                       </div>
                     </div>

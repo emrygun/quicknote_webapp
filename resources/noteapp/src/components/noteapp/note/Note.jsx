@@ -2,15 +2,17 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import "./note.scss";
 
-export const UserNote = ({Note, deleteUserNote}) => {
+export const UserNote = ({Note, deleteUserNote,showDisplayNoteModal, switchDisplayNoteModal}) => {
     //Delete Note
-    const deleteNote = () => deleteUserNote(Note)
+    const deleteNote = () => deleteUserNote(Note);
+    //Open note
+    const displayNote = () => switchDisplayNoteModal(Note);
 
   return (
     <li>
       <div className="field has-addons user-note">
         <div className="control title-block">
-          <p className="button is-small is-full-width" type="text">
+          <p className="button is-small is-full-width" onClick={displayNote} type="text">
             {Note.title}
           </p>
         </div>
@@ -25,28 +27,26 @@ export const UserNote = ({Note, deleteUserNote}) => {
   );
 }
 
-export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal})=> {
+export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, Note})=> {
+    const closeDisplayNote = () => switchDisplayNoteModal(null);
+
     return showDisplayNoteModal ? (
       <article class="message is-white">
         <div class="message-header">
-          <p>Dark</p>
+          <p>{Note.title}</p>
           <p className="subtitle is-6">11 01 1999</p>
           <button
             class="delete"
             aria-label="delete"
-            onClick={switchDisplayNoteModal}
+            onClick={closeDisplayNote}
           />
         </div>
-        <div class="message-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-          <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta
-          nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida
-          purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac{" "}
-          <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et
-          sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi
-          magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales
-          sem.
-        </div>
+        <textarea
+          className="textarea has-fixed-size is-small"
+          placeholder="Write your note here. 500 word max."
+          value={Note.text}
+          name="noteText"
+        />
       </article>
     ) : null;
 }
