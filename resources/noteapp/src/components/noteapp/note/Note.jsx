@@ -28,27 +28,43 @@ export const UserNote = ({Note, deleteUserNote,showDisplayNoteModal, switchDispl
 }
 
 export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, Note})=> {
-    const closeDisplayNote = () => switchDisplayNoteModal(null);
+    const [content, setContent] = useState(null);
+    const closeDisplayNote = () => {
+        switchDisplayNoteModal(null);
+        setContent(null)
+    }
 
-    return showDisplayNoteModal ? (
-      <article class="message is-white">
-        <div class="message-header">
-          <p>{Note.title}</p>
-          <p className="subtitle is-6">11 01 1999</p>
-          <button
-            class="delete"
-            aria-label="delete"
-            onClick={closeDisplayNote}
-          />
-        </div>
-        <textarea
-          className="textarea has-fixed-size is-small"
-          placeholder="Write your note here. 500 word max."
-          value={Note.text}
-          name="noteText"
-        />
-      </article>
-    ) : null;
+    //Get Note changes on same instance
+    useEffect(() => {
+        setContent(Note)
+    }, [Note])
+
+    return showDisplayNoteModal ?
+        (
+          <div className="displayNote-main-container">
+            <article class="displayNote-container message is-white">
+              <div class="displayNote-modal-header message-header">
+                <div className="displayNote-modal-titleField">
+                  <div className="title is-4">{Note.title}</div>
+                  <div className="date subtitle is-7">Date: {Note.date}</div>
+                  <div className="token subtitle is-7">Token: {Note.noteId}</div>
+                </div>
+                <button className="displayNote-closeButton"
+                  class="delete"
+                  aria-label="delete"
+                  onClick={closeDisplayNote}
+                />
+              </div>
+              <textarea
+                className="displayNote-textarea textarea has-fixed-size is-small"
+                placeholder="Write your note here. 500 word max."
+                value={content != null ? content.text : null}
+                onChange={event => setContent(event.target.value)}
+                name="noteText"
+              />
+            </article>
+          </div>
+        ) : null;
 }
 
 export const CreateNote = ({ showCreateNoteModal, switchCreateNoteModal, Profile, }) => {
@@ -88,10 +104,7 @@ export const CreateNote = ({ showCreateNoteModal, switchCreateNoteModal, Profile
 
   return showCreateNoteModal ? (
     <div className="createNote-main-container">
-      <div
-        className="createNote-container"
-        showCreateNoteModal={showCreateNoteModal}
-      >
+      <div className="createNote-container">
         <article className="createNote-modal message is-white">
           <div className="createNote-modal-header">
             <p className="title is-5">Create Note</p>
