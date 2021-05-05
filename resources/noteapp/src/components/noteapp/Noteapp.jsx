@@ -8,9 +8,12 @@ import "./noteapp.scss";
 
 export function Noteapp(props) {
     const [logedIn, setLogedIn] = useState(true);
+
     const [currentNote, setCurrentNote] = useState(null);
     const [userNotes, setUserNotes] = useState([]);
     const [userNotesUpdated, setUserNotesUpdates] = useState(false);
+
+    const [inputToken, setInputToken] = useState(null);
 
     const [showCreateNoteModal, setShowCreateNoteModal] = useState(false);
     const [showDisplayNoteModal, setShowDisplayNoteModal] = useState(false);
@@ -27,12 +30,13 @@ export function Noteapp(props) {
 
     //Open DisplayNoteModal
     const switchDisplayNoteModal = (tempNote) => {
+        console.log(tempNote)
         if (tempNote == null){
-            setCurrentNote(null);
             setShowDisplayNoteModal(false);
+            setCurrentNote(null);
         }
         else {
-            if (currentNote != null){
+            if (currentNote != null) {
                 setCurrentNote(tempNote);
             }
             else {
@@ -41,7 +45,6 @@ export function Noteapp(props) {
                 setShowCreateNoteModal(false);
             }
         }
-
     };
 
     const deleteUserNote = (Note) => {
@@ -61,7 +64,29 @@ export function Noteapp(props) {
         })
         .then(res => { return res.json(); })  
         .then(setUserNotesUpdates(prev => !prev))
+    }
 
+    const getNoteWithToken = (token) => {
+        return fetch('http://localhost:5000/getNote', 
+        {
+            method: 'post',
+            headers: 
+            {
+                'Content-Type':'application/json',
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                googleId: props.googleProfile.googleId,
+                token: token
+            })
+        })
+        .then(res =>{ return res.json() })  
+        .then(data =>{ 
+            console.log(data);
+            switchDisplayNoteModal(data);
+            }
+        )
     }
 
     useEffect (() => {
@@ -134,12 +159,13 @@ export function Noteapp(props) {
                           className="input is-small"
                           type="text"
                           placeholder="Get note with Token"
+                          onChange={(event) => setInputToken(event.target.value)}
                         />
                       </div>
                       <div className="control">
                         <button
                           className="button is-small"
-                          onClick={switchDisplayNoteModal}
+                          onClick={() => {getNoteWithToken(parseInt((inputToken)))}}
                         >
                           Get Note
                         </button>

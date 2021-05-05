@@ -48,6 +48,9 @@ export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, Note
                   <div className="title is-4">{Note.title}</div>
                   <div className="date subtitle is-7">Date: {Note.date}</div>
                   <div className="token subtitle is-7">Token: {Note.noteId}</div>
+                  <div className="isPublic subtitle is-7">Public: {(Note.isPublic === 1 ? 
+                                <i class="fa fa-check" aria-hidden="true"/> : 
+                                <i class="fa fa-times" aria-hidden="true"/>)}</div>
                 </div>
                 <button className="displayNote-closeButton"
                   class="delete"
