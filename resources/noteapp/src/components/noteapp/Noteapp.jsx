@@ -58,7 +58,7 @@ export function Noteapp(props) {
             },
             body: JSON.stringify(
             {
-                googleId: Note.author,
+                googleId: props.googleProfile.googleId,
                 token: Note.noteId
             })
         })
@@ -87,6 +87,30 @@ export function Noteapp(props) {
             switchDisplayNoteModal(data);
             }
         )
+    }
+
+    const editNote = (token, newText) => {
+        return fetch('http://localhost:5000/editNote', 
+        {
+            method: 'post',
+            headers: 
+            {
+                'Content-Type':'application/json',
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(
+            {
+                googleId: props.googleProfile.googleId,
+                token: token,
+                text: newText
+            })
+        })
+        .then(res =>{ return res.json() })  
+        .then(data =>{ 
+            console.log(data);
+            }
+        )
+        .then(setUserNotesUpdates(prev => !prev))
     }
 
     useEffect (() => {
@@ -193,6 +217,7 @@ export function Noteapp(props) {
                         <DisplayNote
                           showDisplayNoteModal={showDisplayNoteModal}
                           switchDisplayNoteModal={switchDisplayNoteModal}
+                          editNote={editNote}
                           Note={currentNote}
                         />
                       </div>

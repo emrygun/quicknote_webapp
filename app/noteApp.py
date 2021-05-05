@@ -81,17 +81,25 @@ class noteApp:
         self.mysql.connection.commit()
         return jsonify("OK")
 
+    def editNoteFromDb(self, content):
+        self.mysql.connection.cursor().execute("UPDATE userNotes SET text = %s WHERE noteId = '%s' AND author = %s", [content.get('text'), content.get('token'), content.get('googleId')])
+        self.mysql.connection.commit()
+
+        self.mysql.connection.cursor().execute("INSERT INTO noteEdit (author, noteId) VALUES (%s, %s)", [content.get('googleId'), content.get('token')])
+        self.mysql.connection.commit()
+        return jsonify("OK")
+
     def getNoteFromDb(self, content):
         #If token = None, It's a list request
         if Content.isNoteRequest(content):
             cursor = self.mysql.connection.cursor()
             #Get all notes 
             if content.get("token") == 0:
-                cursor.execute("SELECT * FROM userNotes WHERE author = %s", [content.get("googleId")])
+                cursor.execute("SELECT title, text, noteId, date, isPublic FROM userNotes WHERE author = %s", [content.get("googleId")])
                 return jsonify(cursor.fetchall())
             #Get note with token
             else:
-                cursor.execute("SELECT * FROM userNotes WHERE noteId = '%s' AND isPublic = 1", [content.get("token")])
+                cursor.execute("SELECT title, text, noteId, date, isPublic FROM userNotes WHERE noteId = '%s' AND isPublic = 1", [content.get("token")])
                 return jsonify(cursor.fetchone())
         else:
             return False

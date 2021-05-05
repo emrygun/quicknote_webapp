@@ -31,8 +31,8 @@ ENGINE = InnoDB;
 -- noteEdit table
 CREATE TABLE IF NOT EXISTS `noteAppDb`.`noteEdit` (
     id          INT             AUTO_INCREMENT,
-    profile     VARCHAR(255)    NOT NULL,
-    note_id     INT             NOT NULL,
+    author      VARCHAR(255)    NOT NULL,
+    noteId      INT             NOT NULL,
     date        DATETIME        DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`))
 ENGINE = InnoDB;

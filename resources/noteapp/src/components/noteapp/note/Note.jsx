@@ -27,12 +27,13 @@ export const UserNote = ({Note, deleteUserNote,showDisplayNoteModal, switchDispl
   );
 }
 
-export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, Note})=> {
+export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, editNote, Note})=> {
     const [content, setContent] = useState(null);
     const closeDisplayNote = () => {
         switchDisplayNoteModal(null);
         setContent(null)
     }
+    const submitEditedNote = () => editNote(Note.noteId, content);
 
     //Get Note changes on same instance
     useEffect(() => {
@@ -65,6 +66,9 @@ export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, Note
                 onChange={event => setContent(event.target.value)}
                 name="noteText"
               />
+              <button className="editNoteButton button is-small" onClick={submitEditedNote}>
+                Submit Changes
+              </button>
             </article>
           </div>
         ) : null;

@@ -29,6 +29,13 @@ def deleteNote():
     if request.method == 'POST':
         return server.deleteNoteFromDb(request.get_json(force=True))
 
+#/editNote deletes note from database
+@server.app.route("/editNote", methods=['POST'])
+@cross_origin(origins=['http://localhost:3000'])
+def editNote():
+    if request.method == 'POST':
+        return server.editNoteFromDb(request.get_json(force=True))
+
 #/insertNote inserts note to db 
 @server.app.route("/insertNote", methods=['POST'])
 @cross_origin(origins=['http://localhost:3000'])
