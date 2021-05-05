@@ -82,10 +82,10 @@ class noteApp:
         return jsonify("OK")
 
     def editNoteFromDb(self, content):
-        self.mysql.connection.cursor().execute("UPDATE userNotes SET text = %s WHERE noteId = '%s' AND author = %s", [content.get('text'), content.get('token'), content.get('googleId')])
+        self.mysql.connection.cursor().execute("UPDATE userNotes SET text = %s WHERE noteId = '%s'", [content.get('text'), content.get('token')])
         self.mysql.connection.commit()
 
-        self.mysql.connection.cursor().execute("INSERT INTO noteEdit (author, noteId) VALUES (%s, %s)", [content.get('googleId'), content.get('token')])
+        self.mysql.connection.cursor().execute("INSERT INTO noteEdit (author, noteId) VALUES (%s)", [content.get('googleId'), content.get('token')])
         self.mysql.connection.commit()
         return jsonify("OK")
 
