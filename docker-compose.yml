@@ -15,6 +15,9 @@ services:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=noteAppDb
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - client
+      - server
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -41,3 +44,15 @@ services:
       - NODE_ENV=development
     ports:
       - '3000:3000'
+
+  server:
+    build: app
+    container_name: server
+    command: ["flask", "run", "--host=0.0.0.0"]
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    ports:
+      - "5000:5000"
