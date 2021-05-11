@@ -1,39 +1,71 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 
 import "./note.scss";
 
-export const UserNote = ({Note, deleteUserNote,showDisplayNoteModal, switchDisplayNoteModal}) => {
+let regEx = /^(?=.*[a-zA-Z0-9]).{1,}$/; 
+
+export const UserNote = ({Note, deleteUserNote, switchDisplayNoteModal}) => {
     //Delete Note
     const deleteNote = () => deleteUserNote(Note);
     //Open note
     const displayNote = () => switchDisplayNoteModal(Note);
 
-  return (
-    <li>
-      <div className="field has-addons user-note">
-        <div className="control title-block">
-          <p className="button is-small is-full-width" onClick={displayNote} type="text">
-            {Note.title}
-          </p>
-        </div>
-        <div className="control edit-block">
-          <p className="button is-small fa fa-edit"></p>
-        </div>
-        <div className="control delete-block" onClick={deleteNote}>
-          <p className="button is-small fa fa-trash-o"></p>
-        </div>
-      </div>
-    </li>
+    return (
+        <li>
+          <div className="field has-addons user-note">
+            <div className="control title-block">
+              <p className="button is-small is-full-width" onClick={displayNote} type="text">
+                {Note.title}
+              </p>
+            </div>
+            <div className="control edit-block">
+              <p className="button is-small fa fa-edit"></p>
+            </div>
+            <div className="control delete-block" onClick={deleteNote}>
+              <p className="button is-small fa fa-trash-o"></p>
+            </div>
+          </div>
+        </li>
   );
 }
 
-export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, editNote, Note})=> {
+export const DisplayNote = ({ showDisplayNoteModal, switchDisplayNoteModal, reloadNotes, Profile, Note})=> {
     const [content, setContent] = useState(null);
     const closeDisplayNote = () => {
         switchDisplayNoteModal(null);
         setContent(null)
     }
     const submitEditedNote = () => editNote(Note.noteId, content);
+
+    const editNote = (token, newText) => {
+        //Check if note is valid
+        if (regEx.exec(newText) !== null) {
+            window.alert("Note must contain at least 1 character")
+        }
+        else {
+            return fetch('http://localhost:5000/editNote', 
+            {
+                method: 'post',
+                headers: 
+                {
+                    'Content-Type':'application/json',
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(
+                {
+                    googleId: Profile.googleId,
+                    token: token,
+                    text: newText
+                })
+            })
+            .then(res =>{ return res.json() })  
+            .then(data =>{ 
+                console.log(data);
+                }
+            )
+            .then(reloadNotes())
+        }
+    }
 
     //Get Note changes on same instance
     useEffect(() => {
@@ -87,7 +119,10 @@ export const CreateNote = ({ showCreateNoteModal, switchCreateNoteModal, Profile
   };
 
   const submitNote = () => {
-    const regExp = /[a-zA-Z]/g;
+    //Check if note is valid
+    if (regEx.exec(noteText) !== null || regEx.exec(noteTitle)) {
+        window.alert("Note text and title must contain at least 1 character")
+    }
 
     let newNote = {
         profile: Profile.googleId,

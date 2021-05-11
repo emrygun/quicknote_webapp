@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-
 import {Login} from './components/login/Login';
 import {Noteapp} from './components/noteapp/Noteapp';
 

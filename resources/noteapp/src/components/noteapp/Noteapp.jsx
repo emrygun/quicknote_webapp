@@ -7,14 +7,18 @@ import { CreateNote, UserNote, DisplayNote } from "./note/Note";
 import "./noteapp.scss";
 
 export function Noteapp(props) {
+    //LogedIn state
     const [logedIn, setLogedIn] = useState(true);
 
+    //Note states for UI
     const [currentNote, setCurrentNote] = useState(null);
     const [userNotes, setUserNotes] = useState([]);
-    const [userNotesUpdated, setUserNotesUpdates] = useState(false);
+    const [userNotesUpdated, setUserNotesUpdated] = useState(false);
+    const reloadNotes = () => setUserNotesUpdated(prev => !prev);
 
     const [inputToken, setInputToken] = useState(null);
 
+    //Side component states
     const [showCreateNoteModal, setShowCreateNoteModal] = useState(false);
     const [showDisplayNoteModal, setShowDisplayNoteModal] = useState(false);
 
@@ -25,7 +29,7 @@ export function Noteapp(props) {
         setShowDisplayNoteModal(false);
         setCurrentNote(null);
         //reload note list
-        setUserNotesUpdates(prev => !prev);
+        reloadNotes();
     };
 
     //Open DisplayNoteModal
@@ -63,7 +67,7 @@ export function Noteapp(props) {
             })
         })
         .then(res => { return res.json(); })  
-        .then(setUserNotesUpdates(prev => !prev))
+        .then(reloadNotes())
     }
 
     const getNoteWithToken = (token) => {
@@ -87,30 +91,6 @@ export function Noteapp(props) {
             switchDisplayNoteModal(data);
             }
         )
-    }
-
-    const editNote = (token, newText) => {
-        return fetch('http://localhost:5000/editNote', 
-        {
-            method: 'post',
-            headers: 
-            {
-                'Content-Type':'application/json',
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(
-            {
-                googleId: props.googleProfile.googleId,
-                token: token,
-                text: newText
-            })
-        })
-        .then(res =>{ return res.json() })  
-        .then(data =>{ 
-            console.log(data);
-            }
-        )
-        .then(setUserNotesUpdates(prev => !prev))
     }
 
     useEffect (() => {
@@ -217,7 +197,8 @@ export function Noteapp(props) {
                         <DisplayNote
                           showDisplayNoteModal={showDisplayNoteModal}
                           switchDisplayNoteModal={switchDisplayNoteModal}
-                          editNote={editNote}
+                          reloadNotes={reloadNotes}
+                          Profile={props.googleProfile}
                           Note={currentNote}
                         />
                       </div>

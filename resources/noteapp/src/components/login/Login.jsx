@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import GoogleLogin from 'react-google-login';
 
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import {BrowserRouter as Switch, Route } from 'react-router-dom'
 
 import {Noteapp} from '../noteapp/Noteapp';
 import './login.scss';
@@ -30,8 +30,7 @@ export function Login() {
         console.log(response.profileObj);
     }
 
-    const responseGoogleFailure= (response) => {
-    }
+    const responseGoogleFailure= () => { }
 
     return ( 
         <Switch>
