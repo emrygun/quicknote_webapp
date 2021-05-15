@@ -9,12 +9,6 @@ from noteEntity import Note
 server = noteApp()
 
 #Rest Endpoints to control noteApp operations
-#Home Page
-@server.app.route("/")
-@cross_origin(origins=['http://localhost:3000'])
-def homePage():
-    return "Root page"
-
 #/getNote, returns note or notes 
 @server.app.route("/getNote", methods=['POST'])
 @cross_origin(origins=['http://localhost:3000'])
