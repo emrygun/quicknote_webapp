@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
-from flask_cors import cross_origin
+from flask_cors import cross_origin, CORS
 
 #Class dedicated for NoteApp applications database opearations
 class NoteAppDbInstance:
@@ -42,6 +42,9 @@ class NoteAppDbInstance:
     def getCursor(self):
         return self.__mysql_cursor
 
+    def getMySQL(self):
+        return self.__mysql
+
     #Connection commit
     def commit(self):
         self.__mysql_connection.commit()
@@ -56,23 +59,28 @@ class NoteAppDbInstance:
             print("error: Class not initialized.")
 
         else:
+            CORS(self.__app)
+            self.__app.config['CORS_HEADERS'] = self.__corsHeader
+
+            #Initialize database configuration values
             self.__app.config['MYSQL_HOST']        = self.__databaseSettings.getHost()
             self.__app.config['MYSQL_PORT']        = self.__databaseSettings.getPort()
             self.__app.config['MYSQL_USER']        = self.__databaseSettings.getUser()
             self.__app.config['MYSQL_PASSWORD']    = self.__databaseSettings.getPassword()
             self.__app.config['MYSQL_DB']          = self.__databaseSettings.getDatabase()
-
             self.__app.config['MYSQL_CURSORCLASS'] = self.__cursorClass
-            self.__app.config['CORS_HEADERS'] = self.__cursorClass
 
-            #Initialize database configuration values
             self.__mysql = MySQL(self.__app)
+            return self
 
-            try:
-                self.__mysql_connection = self.__mysql.connection()
-                self.__mysql_cursor = self.__mysql.connection.cursor()
-            except:
-                print("error: Could not connect to database.")
+    #initialize mysql and connect to db
+    def connectToDb(self):
+        try:
+            self.__mysql_connection = self.__mysql.connection
+            self.__mysql_cursor = self.__mysql_connection.cursor()
+        except Exception as e:
+            print(e)
+            print("error: Could not connect to database.")
 
     #Get Instance Methods
     @staticmethod
